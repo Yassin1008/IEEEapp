@@ -2,9 +2,9 @@ import express from "express";
 
 const app = express();
 
-const specificeventID = 420;
+const specificeventID = 420; 
 
-app.get(`/events/${specificeventID}`,(req,res) => {
+app.get("/events/:eventID",(req,res) => {
 
     res.status(200).json({message: 'Welcome to our website!!'});
 });
