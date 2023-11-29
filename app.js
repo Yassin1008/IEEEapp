@@ -4,6 +4,12 @@ const app = express();
 
 const specificeventID = 420; 
 
+const connect = async() =>{
+    await mongoose.connect('mongodb+srv://yassinmohamed007:<Evs5i7Kk79plqot3>@cluster0.8myt66s.mongodb.net/?retryWrites=true&w=majority').then(() =>{
+        console.log('Connected to database');
+    });
+}
+
 app.get("/events/:eventID",(req,res) => {
 
     res.status(200).json({message: 'Welcome to our website!!'});
