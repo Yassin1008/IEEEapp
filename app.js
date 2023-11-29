@@ -44,4 +44,18 @@ app.post('/events', async(req,res) =>{
     }
 })
 
+app.delete('/event/:id', async (req,res) =>{
+  try{
+  const { id } = req.params;
+  const deletedEvent = await EventModel.findByIdAndDelete(id);
+  if(deletedEvent){
+    res.status(200).json ({message: 'Deleted Successfully'});
+  }else{
+    res.status(404).json ({message: 'no event with this id'});
+  }
+  }catch(err){
+    res.status(500).json({message: 'Server error'});
+  }
+}
+)
 
