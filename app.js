@@ -21,7 +21,7 @@ app.listen(PORT,() =>{
     console.log(`Connected to port ${PORT}`);
 } )
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
   try {
     const responseData = { message: 'Request was successful.' };
 
@@ -32,3 +32,15 @@ app.get('/', (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.post('/events', async(req,res) =>{
+    try{
+        const { event } = req.body;
+        const newEvent = new EventModel(event);
+        await newEvent.save();
+        res.status(200).json(newEvent)
+    }
+    catch(error){
+        res.status(500).json({ message: '${error}' });
+    }
+})
