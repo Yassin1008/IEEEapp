@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import EventModel from "./eventsModel.js";
+import TicketModel from "./ticketModel.js";
 
 const app = express();
 
@@ -88,10 +89,20 @@ app.patch('/event/:id', async (req,res) =>{
   }
 });
 
+app.get('/events', async(req,res) =>{
+  const events = await EventModel.find();
+  res.status(200).json({ events });
+})
+
 app.get('/events:id/attendees', (req,res) =>{
   const { id } = req.params;
   res.status(200).json({message: `The attendees for the event with this id = ${id}`});
 });
+
+app.get('/tickets', async (req,res)=>{
+  const tickets = await TicketModel.find();
+  res.status(200).json({ tickets });
+})
 
 
 
