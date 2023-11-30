@@ -69,6 +69,29 @@ app.delete('/event/:id', async (req,res) =>{
   }catch(err){
     res.status(500).json({message: 'Server error'});
   }
-}
-)
+});
+
+app.patch('/event/:id', async (req,res) =>{
+  try{
+    const { id } = req.params;
+    const { numberOfAttendees } = req.body;
+    const event = await EventModel.findByID(id);
+    if(event){
+      event.numberOfAttendees = numberOfAttendees;
+      event.save();
+      res.status(200).json({ event });
+    }else{
+      res.status(404).json({message: 'no event with this id'});
+    }
+  }catch(err){
+    res.status(500).json({message:'server error'});
+  }
+});
+
+app.get('/events:id/attendees', (req,res) =>{
+  const { id } = req.params;
+  res.status(200).json({message: `The attendees for the event with this id = ${id}`});
+});
+
+
 
