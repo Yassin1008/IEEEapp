@@ -99,10 +99,10 @@ app.get('/events:id/attendees', (req,res) =>{
   res.status(200).json({message: `The attendees for the event with this id = ${id}`});
 });
 
-app.get('/tickets', async (req,res)=>{
-  const tickets = await TicketModel.find();
-  res.status(200).json({ tickets });
-})
+// app.get('/tickets', async (req,res)=>{
+//   const tickets = await TicketModel.find();
+//   res.status(200).json({ tickets });
+// })
 
 
 
