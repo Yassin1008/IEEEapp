@@ -9,7 +9,7 @@ const connect = async() =>{
   await mongoose.connect('mongodb+srv://yassinmohamed007:vnLhDb90XLewqBDT@cluster0.8myt66s.mongodb.net/?retryWrites=true&w=majority').then(() =>{
       console.log('Connected to database');
   });
-}
+};
 
 await connect();
 
@@ -32,7 +32,7 @@ const PORT = 7000;
 
 app.listen(PORT,() =>{
     console.log(`Connected to port ${PORT}`);
-} )
+} );
 
 app.get('/home', (req, res) => {
   try {
@@ -56,7 +56,7 @@ app.post('/events', async(req,res) =>{
     catch(error){
         res.status(500).json({ message: '${error}' });
     }
-})
+});
 
 app.delete('/event/:id', async (req,res) =>{
   try{
@@ -92,17 +92,32 @@ app.patch('/event/:id', async (req,res) =>{
 app.get('/events', async(req,res) =>{
   const events = await EventModel.find();
   res.status(200).json({ events });
-})
+});
 
 app.get('/events:id/attendees', (req,res) =>{
   const { id } = req.params;
   res.status(200).json({message: `The attendees for the event with this id = ${id}`});
 });
 
-// app.get('/tickets', async (req,res)=>{
-//   const tickets = await TicketModel.find();
-//   res.status(200).json({ tickets });
-// })
+app.get('/tickets', async (req,res)=>{
+  const tickets = await TicketModel.find();
+  res.status(200).json({ tickets });
+});
 
-
+app.patch('/tickets/:id', async(req,res) => {
+  try{
+    const { id } = req.params;
+    const { userID } = req.body;
+    const ticket = await TicketModel.findByID(id);
+    if(ticket){
+      ticket.userID = userID
+      ticket.save();
+      res.status(200).json({ticket});
+    }else{
+      res.status(404).json({message: 'No event with this id'});
+    }
+  }catch(Err){
+    res.status(500).json({message: 'Server error'});
+  }
+});
 

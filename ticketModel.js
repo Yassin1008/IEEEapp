@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import EventModel from "./eventsModel.js";
 
 const TicketSchema = mongoose.Schema(
     {
@@ -7,10 +6,10 @@ const TicketSchema = mongoose.Schema(
             type:Number
         },
         eventID: {
-            type: Number
+            type:Number
         },
         userID: {
-            type: mongoose.attendeeID
+            type: Number
         }
     }
 )
