@@ -4,6 +4,7 @@ import EventModel from "./eventsModel.js";
 import TicketModel from "./ticketModel.js";
 
 const app = express();
+app.use(express.json());
 
 const connect = async() =>{
   await mongoose.connect('mongodb+srv://yassinmohamed007:vnLhDb90XLewqBDT@cluster0.8myt66s.mongodb.net/?retryWrites=true&w=majority').then(() =>{
@@ -13,10 +14,10 @@ const connect = async() =>{
 
 await connect();
 
-app.get("/events/:eventID",async(req,res) => {
+app.get('/events/:id',async(req,res) => {
   try{
     const { id } = req.params;
-    const event = await EventModel.findByID(id);
+    const event = await EventModel.findById(id);
     console.log('event = ' , event);
     if(event){
       res.status(200).json(event);
@@ -48,13 +49,13 @@ app.get('/home', (req, res) => {
 
 app.post('/events', async(req,res) =>{
     try{
-        const { event } = req.body;
+        const { event }  = req.body;
         const newEvent = new EventModel(event);
         await newEvent.save();
         res.status(200).json(newEvent)
     }
     catch(error){
-        res.status(500).json({ message: '${error}' });
+        res.status(500).json({ message: `${error}` });
     }
 });
 
@@ -76,10 +77,11 @@ app.patch('/event/:id', async (req,res) =>{
   try{
     const { id } = req.params;
     const { numberOfAttendees } = req.body;
-    const event = await EventModel.findByID(id);
+    const event = await EventModel.findById(id);
     if(event){
-      event.numberOfAttendees = numberOfAttendees;
-      event.save();
+      event.NumberOfAttendees = numberOfAttendees;
+      await event.save();
+      console.log("After save");
       res.status(200).json({ event });
     }else{
       res.status(404).json({message: 'no event with this id'});
@@ -108,7 +110,7 @@ app.patch('/tickets/:id', async(req,res) => {
   try{
     const { id } = req.params;
     const { userID } = req.body;
-    const ticket = await TicketModel.findByID(id);
+    const ticket = await TicketModel.findById(id);
     if(ticket){
       ticket.userID = userID
       ticket.save();
