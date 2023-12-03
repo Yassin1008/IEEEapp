@@ -136,3 +136,18 @@ app.delete('/attendee/:id', async (req,res) => {
     res.status(500).json({message: 'Server Error'});
   }
 })
+
+app.get('/attendee/:id' , async(res,req) =>{
+  try{  
+  const { id } = req.params;
+  const attendee = AttendeeModel.findById(id);
+  console.log('attendee =', attendee);
+  if(attendee){
+    res.status(200).json({attendee});
+  }else{
+    res.status(404).json({message: 'no attendee with this id'});
+  }
+  }catch(err){
+    res.status(500).json({message: 'Server error'});
+  }
+});
