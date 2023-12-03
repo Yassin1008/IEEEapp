@@ -81,7 +81,6 @@ app.patch('/event/:id', async (req,res) =>{
     if(event){
       event.NumberOfAttendees = numberOfAttendees;
       await event.save();
-      console.log("After save");
       res.status(200).json({ event });
     }else{
       res.status(404).json({message: 'no event with this id'});
@@ -118,8 +117,22 @@ app.patch('/tickets/:id', async(req,res) => {
     }else{
       res.status(404).json({message: 'No event with this id'});
     }
-  }catch(Err){
+  }catch(err){
     res.status(500).json({message: 'Server error'});
   }
 });
 
+
+app.delete('/attendee/:id', async (req,res) => {
+  try {
+      const { id } = req.params;
+      const deletedAttendee = await AttendeeModel.findByIdAndDelete(id);
+      if(deletedAttendee){
+        res.status(200).json({message: 'Deleted sucessfuly'});
+      } else{
+        res.status(404).json({message: 'No attendee with this ID'});
+      }
+  } catch (err) {
+    res.status(500).json({message: 'Server Error'});
+  }
+})
