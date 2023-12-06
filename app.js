@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import EventModel from "./eventsModel.js";
 import TicketModel from "./ticketModel.js";
+import AttendeeModel from "./attendeeModel.js";
 
 const app = express();
 app.use(express.json());
@@ -150,4 +151,9 @@ app.get('/attendee/:id' , async(res,req) =>{
   }catch(err){
     res.status(500).json({message: 'Server error'});
   }
+});
+
+app.get('/attendees', async (req,res) =>{
+    const attendees = await AttendeeModel.find();
+    res.status(200).json({ attendees });
 });
