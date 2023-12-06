@@ -1,14 +1,18 @@
 import express from "express";
 import mongoose from "mongoose";
-import EventModel from "./eventsModel.js";
-import TicketModel from "./ticketModel.js";
-import AttendeeModel from "./attendeeModel.js";
+import EventModel from "./models/eventsModel.js";
+import TicketModel from "./models/ticketModel.js";
+import AttendeeModel from "./models/attendeeModel.js";
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const app = express();
 app.use(express.json());
 
+
 const connect = async() =>{
-  await mongoose.connect('mongodb+srv://yassinmohamed007:vnLhDb90XLewqBDT@cluster0.8myt66s.mongodb.net/?retryWrites=true&w=majority').then(() =>{
+  await mongoose.connect(process.env.MONGO_URL).then(() =>{
       console.log('Connected to database');
   });
 };
